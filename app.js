@@ -304,6 +304,8 @@ function initThree() {
     }
   }
 
+  
+
 });
 
   // HOTSPOT
@@ -331,15 +333,14 @@ function initThree() {
         controls.update();
 
       }
-      
     }
-    
+
+
     if (vrNavigation) {
-      vrNavigation.update();
-    }
 
+  vrNavigation.update();
 
-   
+}
     // HOTSPOT INFO
 
     if (infoHotspot) {
