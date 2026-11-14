@@ -1,0 +1,87 @@
+{
+  "nombre": "Saqsaywaman",
+  "zonas": [
+    {
+      "id": "zona1",
+      "nombre": "Llaullipata",
+      "ruta": "lugares/Llaullipata/",
+      "imagenes": [
+        "Llaullipata-1.jpg",
+        "Llaullipata-2.jpg"
+        
+      ]
+    },
+    {
+      "id": "zona2",
+      "nombre": "MuyucMarka",
+      "ruta": "lugares/MuyucMarka/",
+      "imagenes": [
+        "Muyucmarka-1.jpg",
+        "Muyucmarka-2.jpg"
+     
+      ]
+    },
+    {
+      "id": "zona3",
+      "nombre": "Mirador",
+      "ruta": "lugares/Mirador/",
+      "imagenes": [
+        "Mirador-1.jpg",
+        "Mirador-2.jpg",
+        "Mirador-3.jpg",
+        "Mirador-4.jpg"
+       
+      ]
+    },
+    {
+      "id": "zona4",
+      "nombre": "IntiPunku",
+      "ruta": "lugares/IntiPunku/",
+      "imagenes": [
+        "IntiPunku-1.jpg",
+        "IntiPunku-2.jpg",
+        "IntiPunku-3.jpg"
+        
+      ]
+    },
+    {
+      "id": "zona5",
+      "nombre": "Explanada",
+      "ruta": "lugares/Explanada/",
+      "imagenes": [
+        "Explanada-1.jpg",
+        "Explanada-2.jpg",
+        "Explanada-3.jpg"
+        
+      ]
+    },
+    {
+      "id": "zona6",
+      "nombre": "TronoInca",
+      "ruta": "lugares/TronoInca/",
+      "imagenes": [
+        "Trono-1.jpg"
+      ]
+    }
+    ,
+    {
+      "id": "zona7",
+      "nombre": "Rodadero",
+      "ruta": "lugares/Rodadero/",
+      "imagenes": [
+        "Rodadero-1.jpg"
+      ]
+    }
+    ,
+    {
+      "id": "zona8",
+      "nombre": "SectorQocha",
+      "ruta": "lugares/SectorQocha/",
+      "imagenes": [
+        "Qocha-1.jpg",
+        "Qocha-2.jpg",
+        "Qocha-3.jpg"
+      ]
+    }
+  ]
+}

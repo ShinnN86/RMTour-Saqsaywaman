@@ -1,0 +1,180 @@
+{
+  "zona1": [
+    {
+      "titulo": "Llaullipata",
+      "subtitulo": "Ingreso",
+      "descripcion": "Nos encontramos en Llaullipata, el punto de ingreso al complejo. Este lugar representa el inicio de una transición: dejamos atrás el espacio cotidiano para ingresar a un territorio cargado de significado ritual.Este sector no fue originalmente inca. Investigaciones recientes, respaldadas por el Ministerio de Cultura y mencionadas por el arqueólogo Robin Astete, evidencian que aquí existió previamente la cultura Qotakalli, una sociedad que se desarrolló entre los siglos VI y IX y que dejó huellas importantes en la zona sur del complejo.",
+
+      "imagen": "assets/img-text/LLAULLIPATA.JPG",
+
+      "modeloUrl": "",
+
+      "audio": "Llaullipata.mp3",
+        "mostrarHotspot": true
+    },
+
+    {
+      "titulo": "Acllawasi",
+      "subtitulo": "Vista Interior",
+      "descripcion": "Descripción de la escena 2.",
+
+      "imagen": "imagenes/acllawasi2.jpg",
+
+      "modeloUrl": "",
+
+      "audio": "",
+        "mostrarHotspot": false
+    }
+  ],
+
+  "zona2": [
+    {
+      "titulo": "Piramide Con Rampa",
+      "subtitulo": "Rampa 1",
+      "descripcion": "",
+      "imagen": "",
+      "modelo": "",
+      "audio": "",
+      "mostrarHotspot": false
+    },
+    {
+      "titulo": "Muyuqmarca",
+      "subtitulo": "Torreones ",
+      "descripcion": "Al avanzar, llegamos al sector de Muyuqmarca, el torreón más emblemático del complejo. Su planta circular rompe con el patrón ortogonal típico de la arquitectura inca, lo que ha llevado a múltiples interpretaciones sobre su función. Inca Garcilaso de la Vega describe este torreón como una estructura de varios niveles que contenía agua en su interior, un detalle clave que ha sido reinterpretado por la arqueología contemporánea.",
+      "imagen": "assets/img-text/TORREON MUYUQMARQA.jpg",
+      "modelo": "",
+      "audio": "Muyuqmarca.mp3",
+       "mostrarHotspot": true
+    }
+  ],
+  "zona3": [
+    {
+      "titulo": "Sacsaywaman",
+      "subtitulo": "Mirador",
+      "descripcion": "Nos detenemos ahora en el mirador, uno de los puntos más impactantes del recorrido. Desde aquí se puede apreciar toda la ciudad del Cusco. Según Inca Garcilaso de la Vega, la ciudad fue diseñada con forma de puma, siendo Saqsayhuamán la cabeza.Este mirador, además, se ubica en el flanco oriental, donde se han identificado evidencias arqueológicas de la cultura Qotakalli, lo que refuerza la continuidad histórica del lugar.",
+      "imagen": "assets/img-text/MIRADOR.jpg",
+      "modelo": "",
+      "audio": "Muyuqmarca.mp3",
+      "mostrarHotspot": true
+    },
+     {
+      "titulo": "",
+      "subtitulo": "",
+      "descripcion": "",
+      "imagen": "",
+      "modelo": "",
+      "audio": "",
+      "mostrarHotspot": false
+    }
+  ],
+  "zona4": [
+    {
+      "titulo": "",
+      "subtitulo": "",
+      "descripcion": "Al ascender hacia el segundo nivel, encontramos el Intipunku o “puerta del sol”. Este acceso no solo cumplía una función defensiva, sino también simbólica. John Hyslop explica que estos accesos marcaban transiciones jerárquicas dentro del espacio, diferenciando niveles de acceso según la importancia ritual o política.",
+      "imagen": "assets/img-text/PUERTA INTIPUNKU.JPG",
+      "modeloUrl": "",
+      "audio": "intipunku.mp3",
+      "mostrarHotspot": true
+    },
+    {
+      "titulo": "",
+      "subtitulo": "",
+      "descripcion": "",
+      "imagen": "",
+      "modelo": "",
+      "audio": "",
+      "mostrarHotspot": false
+    },
+    {
+      "titulo": "",
+      "subtitulo": "",
+      "descripcion": "",
+      "imagen": "",
+      "modelo": "",
+      "audio": "",
+      "mostrarHotspot": false
+    }
+  ],
+  "zona5": [
+    {
+      "titulo": "Explanada",
+      "subtitulo": "Muralla  Zig Zag",
+      "descripcion": "Frente a nosotros se elevan las impresionantes murallas en zigzag, uno de los mayores logros de la ingeniería inca. Pedro Cieza de León quedó asombrado por el tamaño de las piedras, algunas de más de 100 toneladas. Jean-Pierre Protzen explica que estas fueron talladas y ensambladas con precisión milimétrica, sin uso de mortero. Pero más allá de la técnica, el diseño en zigzag tiene un profundo significado simbólico. John Rowe y María Rostworowski interpretan esta forma como representación del rayo, vinculado al dios Illapa. La explanada frente a estas murallas era un espacio ceremonial donde se realizaban grandes eventos, como el Inti Raymi.",
+      "imagen": "assets/img-text/Zigzag.jpg",
+      "modeloUrl": "https://shinnn86.github.io/RMTour-Saqsaywaman-ZigZag/",
+      "audio": "intipunku.mp3",
+      "mostrarHotspot": true
+    },
+     {
+      "titulo": "Andenes",
+      "subtitulo": "",
+      "descripcion": "",
+      "imagen": "",
+      "modeloUrl": "",
+      "audio": "",
+      "mostrarHotspot": false
+    },
+     {
+      "titulo": "",
+      "subtitulo": "",
+      "descripcion": "",
+      "imagen": "",
+      "modelo": "",
+      "audio": "",
+      "mostrarHotspot": false
+    }
+  ],
+  "zona6": [
+    {
+      "titulo": "Sacsaywaman",
+      "subtitulo": "Trono Inca",
+      "descripcion": "Aquí encontramos las tianas, asientos tallados en la roca. Inca Garcilaso de la Vega menciona que estos espacios eran utilizados por el Inca para presidir ceremonias. Para Luis E. Valcárcel y Federico Kauffmann Doig, estos elementos representan la integración entre naturaleza y arquitectura, donde la roca misma se convierte en elemento sagrado.",
+      "imagen": "assets/img-text/TRONO DEL INKA.JPG",
+      "modelo": "",
+      "audio": "intipunku.mp3",
+      "mostrarHotspot": true
+    }
+  ],
+  "zona7": [
+    {
+      "titulo": "Sacsaywaman",
+      "subtitulo": "Rodadero",
+      "descripcion": "",
+      "imagen": "assets/img-text/",
+      "modelo": "",
+      "audio": "intipunku.mp3",
+      "mostrarHotspot": false
+    }
+  ],
+  "zona8": [
+    {
+      "titulo": "Sacsaywaman",
+      "subtitulo": "Qocha",
+      "descripcion": "Nos encontramos ante una qocha, parte de un complejo sistema hidráulico. Investigaciones recientes han identificado una red de canales que supera los 100 kilómetros, lo que demuestra un conocimiento avanzado del manejo del agua. Este hallazgo ha llevado a replantear la función de Saqsayhuamán como un centro ceremonial vinculado al agua, no solo al sol.",
+      "imagen": "assets/img-text/QOCHA.JPG",
+      "modelo": "",
+      "audio": "intipunku.mp3",
+      "mostrarHotspot": true
+    },
+    {
+      "titulo": "Sacsaywaman",
+      "subtitulo": "Rodadero",
+      "descripcion": "",
+      "imagen": "assets/img-text/",
+      "modelo": "",
+      "audio": "intipunku.mp3",
+      "mostrarHotspot": false
+    },
+    {
+      "titulo": "Sacsaywaman",
+      "subtitulo": "Rodadero",
+      "descripcion": "",
+      "imagen": "assets/img-text/",
+      "modelo": "",
+      "audio": "intipunku.mp3",
+      "mostrarHotspot": false
+    }
+
+  ]
+}
