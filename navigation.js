@@ -1,3 +1,4 @@
+
 import * as THREE from "three";
 
 export class VRNavigation {
@@ -21,9 +22,29 @@ export class VRNavigation {
 
     this.tiempoApuntado = 1000;
 
-    this.crearBotones();
+    // Eventos de entrada y salida del modo VR
+    this.handleSessionStart = () => {
+      console.log("VR activado: mostrando botones");
+      this.crearBotones();
+    };
+
+    this.handleSessionEnd = () => {
+      console.log("VR desactivado: ocultando botones");
+      this.limpiar();
+    };
+
+    this.renderer.xr.addEventListener(
+      "sessionstart",
+      this.handleSessionStart
+    );
+
+    this.renderer.xr.addEventListener(
+      "sessionend",
+      this.handleSessionEnd
+    );
   }
 
+  // CREAR BOTONES
   crearBotones() {
 
     this.limpiar();
@@ -40,7 +61,8 @@ export class VRNavigation {
         transparent: true,
         opacity: 0.9,
         side: THREE.DoubleSide,
-        depthTest: false
+        depthTest: false,
+        depthWrite: false
       });
 
       const boton = new THREE.Mesh(
@@ -50,13 +72,15 @@ export class VRNavigation {
 
       boton.position.set(x, -0.25, -2);
 
-      // Texto
+      // TEXTO
       const canvas = document.createElement("canvas");
 
       canvas.width = 256;
       canvas.height = 256;
 
       const ctx = canvas.getContext("2d");
+
+      ctx.clearRect(0, 0, 256, 256);
 
       ctx.fillStyle = "white";
       ctx.font = "bold 150px Arial";
@@ -71,7 +95,8 @@ export class VRNavigation {
         new THREE.SpriteMaterial({
           map: texture,
           transparent: true,
-          depthTest: false
+          depthTest: false,
+          depthWrite: false
         })
       );
 
@@ -83,20 +108,24 @@ export class VRNavigation {
       boton.userData.inicio = null;
       boton.userData.activado = false;
 
+      // Los botones siguen la cámara del usuario
       this.camera.add(boton);
 
       this.botones.push(boton);
     };
 
     crear("❮", -0.25, "anterior");
-
     crear("❯", 0.25, "siguiente");
   }
 
-
+  // DETECCIÓN POR MIRADA
   update() {
 
     if (!this.renderer.xr.isPresenting) {
+      return;
+    }
+
+    if (this.botones.length === 0) {
       return;
     }
 
@@ -106,12 +135,17 @@ export class VRNavigation {
 
     xrCamera.updateMatrixWorld(true);
 
-    this.raycaster.ray.origin.setFromMatrixPosition(
-      xrCamera.matrixWorld
-    );
+    // Rayo desde el centro de la vista
+    const origen = new THREE.Vector3()
+      .setFromMatrixPosition(xrCamera.matrixWorld);
 
-    xrCamera.getWorldDirection(
-      this.raycaster.ray.direction
+    const direccion = new THREE.Vector3(0, 0, -1)
+      .applyQuaternion(xrCamera.quaternion)
+      .normalize();
+
+    this.raycaster.ray.set(
+      origen,
+      direccion
     );
 
     const hits = this.raycaster.intersectObjects(
@@ -133,9 +167,7 @@ export class VRNavigation {
     boton.material.color.set(0x00ffff);
 
     if (boton.userData.inicio === null) {
-
       boton.userData.inicio = performance.now();
-
     }
 
     const tiempo =
@@ -152,27 +184,21 @@ export class VRNavigation {
     }
   }
 
-
-
+  // EJECUTAR NAVEGACIÓN
   ejecutar(boton) {
 
     const direccion = boton.userData.direccion;
 
     if (direccion === "siguiente") {
-
       this.onNext?.();
-
     } else {
-
       this.onPrevious?.();
-
     }
 
     this.resetearBotones();
   }
 
-
-
+  // REINICIAR APUNTADO
   resetearBotones(excepto = null) {
 
     this.botones.forEach(boton => {
@@ -184,11 +210,10 @@ export class VRNavigation {
 
         boton.material.color.set(0x0088cc);
       }
-
     });
   }
 
-
+  // ELIMINAR BOTONES
   limpiar() {
 
     this.botones.forEach(boton => {
@@ -204,17 +229,25 @@ export class VRNavigation {
 
         sprite.material.map?.dispose();
         sprite.material.dispose();
-
       }
-
     });
 
     this.botones = [];
   }
 
+  // LIBERAR RECURSOS
   dispose() {
 
     this.limpiar();
 
+    this.renderer.xr.removeEventListener(
+      "sessionstart",
+      this.handleSessionStart
+    );
+
+    this.renderer.xr.removeEventListener(
+      "sessionend",
+      this.handleSessionEnd
+    );
   }
 }
