@@ -11,7 +11,10 @@ export class VRNavigation {
 
     this.raycaster = new THREE.Raycaster();
     this.botones = [];
+
     this.grupo = null;
+    this.cursorGrupo = null;
+
     this.tiempoApuntado = 1000;
 
     this.posicion = new THREE.Vector3();
@@ -47,10 +50,28 @@ export class VRNavigation {
   crearBotones() {
     this.limpiar();
 
+    const xrCamera = this.renderer.xr.getCamera(this.camera);
+
+    xrCamera.updateMatrixWorld(true);
+
+    xrCamera.matrixWorld.decompose(
+      this.posicion,
+      this.quaternion,
+      this.escala
+    );
+
+    // GRUPO DE BOTONES: SE QUEDA FIJO EN EL MUNDO 3D
     this.grupo = new THREE.Group();
+
+    this.grupo.position.copy(this.posicion);
+    this.grupo.quaternion.copy(this.quaternion);
+
     this.scene.add(this.grupo);
 
-    // PUNTERO CENTRAL
+    // GRUPO DEL CURSOR: SIGUE LA MIRADA
+    this.cursorGrupo = new THREE.Group();
+    this.scene.add(this.cursorGrupo);
+
     const cursorMaterial = new THREE.MeshBasicMaterial({
       color: 0xffffff,
       depthTest: false,
@@ -64,7 +85,8 @@ export class VRNavigation {
 
     cursor.position.set(0, 0, -2);
     cursor.renderOrder = 999;
-    this.grupo.add(cursor);
+
+    this.cursorGrupo.add(cursor);
 
     const punto = new THREE.Mesh(
       new THREE.CircleGeometry(0.008, 24),
@@ -76,9 +98,10 @@ export class VRNavigation {
 
     punto.position.set(0, 0, -2);
     punto.renderOrder = 1000;
-    this.grupo.add(punto);
 
-    // CREAR FLECHAS
+    this.cursorGrupo.add(punto);
+
+    // CREAR BOTONES DE NAVEGACIÓN
     const crear = (texto, x, direccion) => {
       const boton = new THREE.Mesh(
         new THREE.CircleGeometry(0.15, 48),
@@ -99,6 +122,7 @@ export class VRNavigation {
       canvas.height = 256;
 
       const ctx = canvas.getContext("2d");
+
       ctx.fillStyle = "white";
       ctx.font = "bold 190px Arial";
       ctx.textAlign = "center";
@@ -143,12 +167,17 @@ export class VRNavigation {
       this.escala
     );
 
-    // Mantener los elementos frente a la vista
-    this.grupo.position.copy(this.posicion);
-    this.grupo.quaternion.copy(this.quaternion);
+    // SOLAMENTE EL CURSOR SIGUE LA CABEZA
+    if (this.cursorGrupo) {
+      this.cursorGrupo.position.copy(this.posicion);
+      this.cursorGrupo.quaternion.copy(this.quaternion);
+      this.cursorGrupo.updateMatrixWorld(true);
+    }
+
+    // LOS BOTONES PERMANECEN EN SU POSICIÓN ORIGINAL
     this.grupo.updateMatrixWorld(true);
 
-    // Rayo desde el centro de la mirada
+    // RAYO DESDE EL CENTRO DE LA MIRADA
     this.direccion.set(0, 0, -1)
       .applyQuaternion(this.quaternion)
       .normalize();
@@ -210,11 +239,17 @@ export class VRNavigation {
   }
 
   limpiar() {
-    if (this.grupo) {
-      this.scene.remove(this.grupo);
+    const grupos = [this.grupo, this.cursorGrupo];
 
-      this.grupo.traverse(objeto => {
-        if (objeto.geometry) objeto.geometry.dispose();
+    grupos.forEach(grupo => {
+      if (!grupo) return;
+
+      this.scene.remove(grupo);
+
+      grupo.traverse(objeto => {
+        if (objeto.geometry) {
+          objeto.geometry.dispose();
+        }
 
         if (objeto.material) {
           const materiales = Array.isArray(objeto.material)
@@ -227,10 +262,11 @@ export class VRNavigation {
           });
         }
       });
-    }
+    });
 
     this.botones = [];
     this.grupo = null;
+    this.cursorGrupo = null;
   }
 
   dispose() {
