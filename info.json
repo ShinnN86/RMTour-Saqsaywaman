@@ -10,7 +10,14 @@
       "modeloUrl": "",
 
       "audio": "Llaullipata.mp3",
-        "mostrarHotspot": true
+        "mostrarHotspot": true,
+        "siguiente": {
+      "escena": 1,
+      "x": -82,
+      "y": -69,
+      "z": -30,
+      "rotacion": 17.90
+    }
     },
 
     {
