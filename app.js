@@ -331,11 +331,11 @@ function initThree() {
         controls.update();
 
       }
-      if (vrNavigation) {
-
-      rNavigation.update();
-
-}
+      
+    }
+    
+    if (vrNavigation) {
+      vrNavigation.update();
     }
 
 
