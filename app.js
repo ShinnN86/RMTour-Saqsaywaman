@@ -257,8 +257,8 @@ function initThree() {
 
   vrNavigation = new VRNavigation({
 
+  scene: scene,
   camera: camera,
-
   renderer: renderer,
 
   onNext: () => {
@@ -331,14 +331,15 @@ function initThree() {
         controls.update();
 
       }
+      if (vrNavigation) {
+
+      rNavigation.update();
+
+}
     }
 
 
-    if (vrNavigation) {
-
-  vrNavigation.update();
-
-}
+   
     // HOTSPOT INFO
 
     if (infoHotspot) {
