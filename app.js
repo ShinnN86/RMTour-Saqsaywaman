@@ -10,6 +10,11 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 let vrNavigation = null;
 let infoPanelVR = null;
 
+let navGazeStartTime = null;
+let navGazeTarget = null;
+
+const NAV_GAZE_DELAY = 1000;
+
 let vozLectura = null;
 let manifest = null;
 let zonaActual = null;
@@ -417,20 +422,20 @@ renderer.setAnimationLoop(() => {
     });
 
     // DETECCIÓN DE MIRADA
-    if (enVR) {
-
-        if (infoPanelVR) {
-            infoPanelVR.update();
-        }
+      if (enVR) {
+        if (infoPanelVR) infoPanelVR.update();
 
         if (!infoPanelVR?.visible) {
-            detectarHotspotInfoVR();
+            const navegando = detectarNavegacionVR();
+
+            if (!navegando) {
+                detectarHotspotInfoVR();
+            }
         }
-
     } else {
-
         detectarApuntadoAutomatico();
     }
+ 
 
     // RENDERIZADO ÚNICO
     renderer.render(scene, camera);
@@ -446,6 +451,87 @@ window.addEventListener("resize", onWindowResize);
     onWindowResize
   );
 }
+
+
+
+function detectarNavegacionVR() {
+    if (
+        !renderer?.xr.isPresenting ||
+        !navigationHotspots.length ||
+        infoPanelVR?.visible
+    ) {
+        navGazeStartTime = null;
+        navGazeTarget = null;
+        return false;
+    }
+
+    const xrCamera = renderer.xr.getCamera(camera);
+
+    xrCamera.updateMatrixWorld(true);
+
+    const origen = new THREE.Vector3();
+    const quaternion = new THREE.Quaternion();
+
+    xrCamera.getWorldPosition(origen);
+    xrCamera.getWorldQuaternion(quaternion);
+
+    const direccion = new THREE.Vector3(0, 0, -1)
+        .applyQuaternion(quaternion)
+        .normalize();
+
+    raycaster.set(origen, direccion);
+
+    const intersecciones = raycaster.intersectObjects(
+        navigationHotspots,
+        true
+    );
+
+    if (intersecciones.length === 0) {
+        navGazeStartTime = null;
+        navGazeTarget = null;
+        centerPointer?.classList.remove("active");
+        return false;
+    }
+
+    // Encontrar el modelo principal de la flecha
+    let objetivo = intersecciones[0].object;
+
+    while (objetivo && !objetivo.userData.esNavegacion) {
+        objetivo = objetivo.parent;
+    }
+
+    if (!objetivo) {
+        navGazeStartTime = null;
+        navGazeTarget = null;
+        return false;
+    }
+
+    centerPointer?.classList.add("active");
+
+    // Si cambia la flecha observada, reiniciar el tiempo
+    if (navGazeTarget !== objetivo) {
+        navGazeTarget = objetivo;
+        navGazeStartTime = performance.now();
+    }
+
+    const tiempoMirando = performance.now() - navGazeStartTime;
+
+    // Activar navegación después de un segundo
+    if (tiempoMirando >= NAV_GAZE_DELAY) {
+        const boton = objetivo;
+
+        navGazeStartTime = null;
+        navGazeTarget = null;
+
+        centerPointer?.classList.remove("active");
+
+        ejecutarNavegacion(boton);
+    }
+
+    return true;
+}
+
+
 
 // MENÚ LUGARES
 
@@ -899,6 +985,11 @@ function actualizarBotonesNavegacion() {
       }
     );
   }
+
+
+
+
+
 
   // RETROCEDER
 
