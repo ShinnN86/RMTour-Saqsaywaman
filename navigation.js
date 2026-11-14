@@ -1,17 +1,14 @@
-
 import * as THREE from "three";
 
 export class VRNavigation {
 
   constructor({
-    scene,
     camera,
     renderer,
     onNext,
     onPrevious
   }) {
 
-    this.scene = scene;
     this.camera = camera;
     this.renderer = renderer;
 
@@ -21,37 +18,15 @@ export class VRNavigation {
     this.raycaster = new THREE.Raycaster();
 
     this.botones = [];
-    this.grupo = null;
 
     this.tiempoApuntado = 1000;
 
-    this.handleSessionStart = () => {
-      console.log("VR activado");
-      this.crearBotones();
-    };
-
-    this.handleSessionEnd = () => {
-      console.log("VR desactivado");
-      this.limpiar();
-    };
-
-    this.renderer.xr.addEventListener(
-      "sessionstart",
-      this.handleSessionStart
-    );
-
-    this.renderer.xr.addEventListener(
-      "sessionend",
-      this.handleSessionEnd
-    );
+    this.crearBotones();
   }
 
-  // CREAR BOTONES
   crearBotones() {
 
     this.limpiar();
-
-    this.grupo = new THREE.Group();
 
     const crear = (texto, x, direccion) => {
 
@@ -63,10 +38,9 @@ export class VRNavigation {
       const material = new THREE.MeshBasicMaterial({
         color: 0x0088cc,
         transparent: true,
-        opacity: 0.95,
+        opacity: 0.9,
         side: THREE.DoubleSide,
-        depthTest: false,
-        depthWrite: false
+        depthTest: false
       });
 
       const boton = new THREE.Mesh(
@@ -76,15 +50,13 @@ export class VRNavigation {
 
       boton.position.set(x, -0.25, -2);
 
-      // TEXTO
+      // Texto
       const canvas = document.createElement("canvas");
 
       canvas.width = 256;
       canvas.height = 256;
 
       const ctx = canvas.getContext("2d");
-
-      ctx.clearRect(0, 0, 256, 256);
 
       ctx.fillStyle = "white";
       ctx.font = "bold 150px Arial";
@@ -99,8 +71,7 @@ export class VRNavigation {
         new THREE.SpriteMaterial({
           map: texture,
           transparent: true,
-          depthTest: false,
-          depthWrite: false
+          depthTest: false
         })
       );
 
@@ -112,23 +83,22 @@ export class VRNavigation {
       boton.userData.inicio = null;
       boton.userData.activado = false;
 
-      this.grupo.add(boton);
+      this.camera.add(boton);
 
       this.botones.push(boton);
     };
 
     crear("❮", -0.25, "anterior");
-    crear("❯", 0.25, "siguiente");
 
-    // Ahora pertenecen a la escena y sí se renderizan
-    this.scene.add(this.grupo);
+    crear("❯", 0.25, "siguiente");
   }
 
-  // ACTUALIZAR POSICIÓN SEGÚN CÁMARA VR
+
   update() {
 
-    if (!this.renderer.xr.isPresenting) return;
-    if (!this.grupo || this.botones.length === 0) return;
+    if (!this.renderer.xr.isPresenting) {
+      return;
+    }
 
     const xrCamera = this.renderer.xr.getCamera(
       this.camera
@@ -136,24 +106,13 @@ export class VRNavigation {
 
     xrCamera.updateMatrixWorld(true);
 
-    // Obtener posición y orientación de la cámara XR
-    const matrix = xrCamera.matrixWorld;
+    this.raycaster.ray.origin.setFromMatrixPosition(
+      xrCamera.matrixWorld
+    );
 
-    this.grupo.position.setFromMatrixPosition(matrix);
-
-    this.grupo.quaternion.setFromRotationMatrix(matrix);
-
-    this.grupo.updateMatrixWorld(true);
-
-    // Rayo desde el centro de la mirada
-    const origen = new THREE.Vector3()
-      .setFromMatrixPosition(matrix);
-
-    const direccion = new THREE.Vector3(0, 0, -1)
-      .applyQuaternion(this.grupo.quaternion)
-      .normalize();
-
-    this.raycaster.ray.set(origen, direccion);
+    xrCamera.getWorldDirection(
+      this.raycaster.ray.direction
+    );
 
     const hits = this.raycaster.intersectObjects(
       this.botones,
@@ -161,7 +120,9 @@ export class VRNavigation {
     );
 
     if (hits.length === 0) {
+
       this.resetearBotones();
+
       return;
     }
 
@@ -172,7 +133,9 @@ export class VRNavigation {
     boton.material.color.set(0x00ffff);
 
     if (boton.userData.inicio === null) {
+
       boton.userData.inicio = performance.now();
+
     }
 
     const tiempo =
@@ -189,21 +152,27 @@ export class VRNavigation {
     }
   }
 
-  // EJECUTAR NAVEGACIÓN
+
+
   ejecutar(boton) {
 
     const direccion = boton.userData.direccion;
 
     if (direccion === "siguiente") {
+
       this.onNext?.();
+
     } else {
+
       this.onPrevious?.();
+
     }
 
     this.resetearBotones();
   }
 
-  // REINICIAR APUNTADO
+
+
   resetearBotones(excepto = null) {
 
     this.botones.forEach(boton => {
@@ -215,17 +184,16 @@ export class VRNavigation {
 
         boton.material.color.set(0x0088cc);
       }
+
     });
   }
 
-  // ELIMINAR BOTONES
+
   limpiar() {
 
-    if (this.grupo) {
-      this.scene.remove(this.grupo);
-    }
-
     this.botones.forEach(boton => {
+
+      this.camera.remove(boton);
 
       boton.geometry.dispose();
       boton.material.dispose();
@@ -233,28 +201,20 @@ export class VRNavigation {
       const sprite = boton.children[0];
 
       if (sprite) {
+
         sprite.material.map?.dispose();
         sprite.material.dispose();
+
       }
+
     });
 
     this.botones = [];
-    this.grupo = null;
   }
 
-  // LIBERAR RECURSOS
   dispose() {
 
     this.limpiar();
 
-    this.renderer.xr.removeEventListener(
-      "sessionstart",
-      this.handleSessionStart
-    );
-
-    this.renderer.xr.removeEventListener(
-      "sessionend",
-      this.handleSessionEnd
-    );
   }
 }
