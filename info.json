@@ -4,36 +4,30 @@
       "titulo": "Llaullipata",
       "subtitulo": "Ingreso",
       "descripcion": "Nos encontramos en Llaullipata, el punto de ingreso al complejo. Este lugar representa el inicio de una transición: dejamos atrás el espacio cotidiano para ingresar a un territorio cargado de significado ritual.Este sector no fue originalmente inca. Investigaciones recientes, respaldadas por el Ministerio de Cultura y mencionadas por el arqueólogo Robin Astete, evidencian que aquí existió previamente la cultura Qotakalli, una sociedad que se desarrolló entre los siglos VI y IX y que dejó huellas importantes en la zona sur del complejo.",
-
       "imagen": "assets/img-text/LLAULLIPATA.JPG",
-
       "modeloUrl": "",
-
       "audio": "Llaullipata.mp3",
-        "mostrarHotspot": true,
+      "mostrarHotspot": true,
+      "navegacion": {
         "siguiente": {
-      "escena": 1,
-      "x": -82,
-      "y": -69,
-      "z": -30,
-      "rotacion": 17.90
-    }
+          "escena": 1,
+          "x": -82,
+          "y": -69,
+          "z": -30,
+          "rotacion": 17.90
+        }
+      }
     },
-
     {
       "titulo": "Acllawasi",
       "subtitulo": "Vista Interior",
       "descripcion": "Descripción de la escena 2.",
-
       "imagen": "imagenes/acllawasi2.jpg",
-
       "modeloUrl": "",
-
       "audio": "",
-        "mostrarHotspot": false
+      "mostrarHotspot": false
     }
   ],
-
   "zona2": [
     {
       "titulo": "Piramide Con Rampa",
@@ -51,7 +45,7 @@
       "imagen": "assets/img-text/TORREON MUYUQMARQA.jpg",
       "modelo": "",
       "audio": "Muyuqmarca.mp3",
-       "mostrarHotspot": true
+      "mostrarHotspot": true
     }
   ],
   "zona3": [
@@ -64,7 +58,7 @@
       "audio": "Muyuqmarca.mp3",
       "mostrarHotspot": true
     },
-     {
+    {
       "titulo": "",
       "subtitulo": "",
       "descripcion": "",
@@ -113,7 +107,7 @@
       "audio": "intipunku.mp3",
       "mostrarHotspot": true
     },
-     {
+    {
       "titulo": "Andenes",
       "subtitulo": "",
       "descripcion": "",
@@ -122,7 +116,7 @@
       "audio": "",
       "mostrarHotspot": false
     },
-     {
+    {
       "titulo": "",
       "subtitulo": "",
       "descripcion": "",
@@ -182,6 +176,5 @@
       "audio": "intipunku.mp3",
       "mostrarHotspot": false
     }
-
   ]
 }
