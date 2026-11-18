@@ -265,7 +265,7 @@ export class InfoPanelVR {
     // ====================================
 
     ctx.fillStyle = "#e7edf5";
-    ctx.font = "38px Arial";
+    ctx.font = "30px Arial";
 
     this.dibujarTexto(
       data.descripcion || "",
@@ -404,6 +404,13 @@ export class InfoPanelVR {
 
       image.src = data.imagen;
     }
+
+
+    this.hotspotActivo = hotspot;
+
+if (this.hotspotActivo) {
+    this.hotspotActivo.visible = false;
+}
 
     // ====================================
     // CREAR GRUPO 3D
@@ -586,6 +593,8 @@ this.scene.add(this.grupo);
     // GAZE PARA CERRAR
     // ====================================
 
+   
+
     if (apuntandoCerrar) {
 
       if (this.gazeStart === null) {
@@ -659,6 +668,12 @@ this.scene.add(this.grupo);
 
       this.grupo = null;
     }
+
+    // Restaurar el hotspot al cerrar el panel
+      if (this.hotspotActivo) {
+          this.hotspotActivo.visible = true;
+          this.hotspotActivo = null;
+      }
 
     this.panel = null;
     this.closeRing = null;
