@@ -141,6 +141,40 @@ export class VRNavigation {
 
       sprite.scale.set(0.19, 0.19, 1);
       boton.add(sprite);
+      // TEXTO DESCRIPTIVO DEL BOTÓN
+const canvasTexto = document.createElement("canvas");
+canvasTexto.width = 512;
+canvasTexto.height = 100;
+
+const ctxTexto = canvasTexto.getContext("2d");
+
+ctxTexto.fillStyle = "#ffffff";
+ctxTexto.font = "bold 48px Arial";
+ctxTexto.textAlign = "center";
+ctxTexto.textBaseline = "middle";
+
+ctxTexto.fillText(
+  direccion === "anterior" ? "ANTERIOR" : "SIGUIENTE",
+  256,
+  50
+);
+
+const texturaTexto = new THREE.CanvasTexture(canvasTexto);
+
+const etiqueta = new THREE.Sprite(
+  new THREE.SpriteMaterial({
+    map: texturaTexto,
+    transparent: true,
+    depthTest: false
+  })
+);
+
+// Tamaño y posición del texto
+etiqueta.scale.set(0.55, 0.11, 1);
+etiqueta.position.set(0, -0.20, 0.01);
+
+boton.add(etiqueta);
+
 
       boton.userData.direccion = direccion;
       boton.userData.inicio = null;
