@@ -36,8 +36,8 @@ export class InfoPanelVR {
     this.height = 760;
 
     // Dimensiones del panel 3D
-    this.panelWidth = 52;
-    this.panelHeight = 33;
+   this.panelWidth = 3.2;
+  this.panelHeight = 2.1;
 
     // Vectores reutilizables
     this.cameraPosition = new THREE.Vector3();
@@ -104,7 +104,7 @@ export class InfoPanelVR {
 
     // Título de cabecera
     ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 48px Arial";
+    ctx.font = "bold 56px Arial";
     ctx.textBaseline = "middle";
 
     ctx.fillText(
@@ -145,7 +145,7 @@ export class InfoPanelVR {
     // ====================================
 
     ctx.fillStyle = "#ffffff";
-    ctx.font = "bold 45px Arial";
+    ctx.font = "bold 58px Arial";
     ctx.textBaseline = "top";
 
     this.dibujarTexto(
@@ -164,7 +164,7 @@ export class InfoPanelVR {
     if (data.subtitulo) {
 
       ctx.fillStyle = "#48c9f5";
-      ctx.font = "28px Arial";
+      ctx.font = "38px Arial";
 
       this.dibujarTexto(
         data.subtitulo,
@@ -265,7 +265,7 @@ export class InfoPanelVR {
     // ====================================
 
     ctx.fillStyle = "#e7edf5";
-    ctx.font = "29px Arial";
+    ctx.font = "38px Arial";
 
     this.dibujarTexto(
       data.descripcion || "",
@@ -437,11 +437,11 @@ export class InfoPanelVR {
     // INDICADOR DE MIRADA PARA CERRAR
     // ====================================
 
-    const ringGeometry = new THREE.RingGeometry(
-      2.1,
-      2.7,
-      48
-    );
+   const ringGeometry = new THREE.RingGeometry(
+    0.045,
+    0.065,
+    48
+);
 
     const ringMaterial = new THREE.MeshBasicMaterial({
       color: 0x36e6ff,
@@ -457,10 +457,10 @@ export class InfoPanelVR {
     );
 
     this.closeRing.position.set(
-      22.5,
-      14.5,
-      0.15
-    );
+    1.35,
+    0.83,
+    0.15
+);
 
     this.closeRing.visible = false;
 
@@ -470,14 +470,36 @@ export class InfoPanelVR {
     // POSICIÓN DEL HOTSPOT
     // ====================================
 
-    hotspot.updateWorldMatrix(true, false);
+    // ====================================
+// POSICIÓN DEL PANEL FRENTE AL USUARIO
+// ====================================
 
-    hotspot.getWorldPosition(
-      this.grupo.position
-    );
+const xrCamera = this.renderer.xr.getCamera(this.camera);
 
-    // Agregar a escena
-    this.scene.add(this.grupo);
+xrCamera.updateMatrixWorld(true);
+
+const posicionCamara = new THREE.Vector3();
+const direccionCamara = new THREE.Vector3();
+
+xrCamera.getWorldPosition(posicionCamara);
+
+direccionCamara.set(0, 0, -1);
+
+direccionCamara.applyQuaternion(
+    xrCamera.getWorldQuaternion(new THREE.Quaternion())
+);
+
+direccionCamara.normalize();
+
+// Colocar panel a 2 metros delante del usuario
+this.grupo.position.copy(posicionCamara);
+
+this.grupo.position.add(
+    direccionCamara.multiplyScalar(2)
+);
+
+// Agregar a escena
+this.scene.add(this.grupo);
 
     this.visible = true;
 
